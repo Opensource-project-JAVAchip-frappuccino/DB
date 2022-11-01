@@ -1,12 +1,21 @@
 package ConnectServer;
 
 import java.sql.*;
+import java.util.Scanner;
 
-public class ConnectServer{
-    public static void main(String[] args) {
+class OnlineServer{
+    private int id;
+    private int pw;
+
+    public OnlineServer(int id, int pw){
+        this.id = id;
+        this.pw = pw;
+    }
+
+    public int InputData(int id, int pw){
         Connection conn = null;
 
-        String server = "thisisjava";   //서버명
+        String server = "marketeam";   //서버명
         String user = "root";           //유저명
         String password = "7749";       //비번
 
@@ -17,23 +26,20 @@ public class ConnectServer{
 
             System.out.println("연결 성공!");
             //매개변수화된 SQL문 작성
-            String sql = "" + "INSERT INTO users (userid, username, userpassword, userage, useremail) " + "VALUES (?,?,?,?,?)";
+            String sql = ""
+                    + "INSERT INTO login (id, pw) "
+                    + "VALUES (?,?)";
 
             //매개변수화된 SQL문 실행 메소드 pstmt
             PreparedStatement pstmt = conn.prepareStatement(sql);
             //변수 삽입
+            pstmt.setInt(1, id);
+            pstmt.setInt(2, pw);
 
-            pstmt.setString(1, "winter");
-            pstmt.setString(2, "한겨울");
-            pstmt.setString(3, "12345");
-            pstmt.setInt(4, 25);
-            pstmt.setString(5, "winterinmauve");
-            
             //데이터 저장 확인
             int rows = pstmt.executeUpdate();
             System.out.println("저장된 행 : "+rows);
             pstmt.close();
-
         }catch(ClassNotFoundException e){
             e.printStackTrace();
         } catch (SQLException e) {
@@ -46,5 +52,15 @@ public class ConnectServer{
                 } catch (SQLException e) {}
             }
         }
+        return id;
+    }
+}
+public class ConnectServer{
+    public static void main(String[] args) { //차후에 id pw를 Login-title 클래스에서 받아 올 예정
+        Scanner sc = new Scanner(System.in);
+        int id = sc.nextInt();
+        int pw = sc.nextInt();
+        OnlineServer os = new OnlineServer(id, pw);
+        os.InputData(id, pw);
     }
 }
