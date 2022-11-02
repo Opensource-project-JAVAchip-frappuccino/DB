@@ -1,5 +1,3 @@
-import ConnectServer.ConnectServer;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
