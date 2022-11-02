@@ -1,7 +1,4 @@
-package ConnectServer;
-
 import java.sql.*;
-import java.util.Scanner;
 
 class OnlineServer{
     private int id;
@@ -16,8 +13,8 @@ class OnlineServer{
         Connection conn = null;
 
         String server = "marketeam";   //서버명
-        String user = "root";           //유저명
-        String password = "7749";       //비번
+        String user = "root";          //유저명
+        String password = "7749";      //비번
 
         try{ //실행구간
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -55,11 +52,9 @@ class OnlineServer{
         return id;
     }
 }
-public class ConnectServer{
-    public static void main(String[] args) { //차후에 id pw를 Login-title 클래스에서 받아 올 예정
-        Scanner sc = new Scanner(System.in);
-        int id = sc.nextInt();
-        int pw = sc.nextInt();
+public class ConnectServer {
+    //login_enter(), loginbtnclicked()
+    public ConnectServer(int id, int pw) { //Login_Title에서 입력받은 변수 사용
         OnlineServer os = new OnlineServer(id, pw);
         os.InputData(id, pw);
     }
