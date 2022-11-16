@@ -23,9 +23,9 @@ public class ConnectServer {
     }//public ConnectServer
 
     public void DisconnectServer() { //서버 연결 해제
-        if (conn != null) {
+        if (this.conn != null) {
             try {
-                conn.close();
+                this.conn.close();
                 System.out.println("연결 끊기");
             } catch (SQLException e) {
             }
@@ -79,6 +79,30 @@ public class ConnectServer {
         return false;
     }//FindID
 
+    public void CheckList(int id){ //체크리스트 저장할 DB 접근
+        try {
+            //매개변수화된 SQL문 작성
+            String sql = "INSERT INTO user_info ()" +
+                    "VALUES (?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement pstmt = this.conn.prepareStatement(sql);
+            int i;
+            int[] user_info = {0, 1, 2, 3, 4, 5, 6, 7};
+            /* 1:id, 2:grade, 3:leader 4:announce 5:ppt 6:frontend 7:backend 8:selfability */
+            for(i=0;i<8;i++) {
+                pstmt.setInt(i + 1, user_info[i]);
+            }
+            pstmt.setString(9, "소프트웨어학과"); //major
+            pstmt.setInt(10, 0); //teammate (0:false, 1:true)
+
+            int rows = pstmt.executeUpdate();
+            System.out.println("저장된 행 : " + rows);
+            pstmt.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    } //CheckList
 
 
 }
