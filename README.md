@@ -5,8 +5,12 @@
 - 해당 코드들은 pdf를 기준으로 작성
 ---
 ## To do
-- 프로젝트용 테이블로 DB 작성
-- 테이블 관리
+- DB 완성
+- UI와 완전 연동
+
+## In Progress
+- 게시판용 DB 제작
+- 로그인, 회원가입 연결
 
 ## Success
 - Intellij mysql 연동               22.09.?
