@@ -19,5 +19,7 @@
 - UI에서 입력한 id, pw를 DB에 저장   22.10.31
 - 저장된 정보 추출                   22.11.09
 - 체크리스트 저장 테이블              22.11.15
+- 정보 수정 함수 Rewrite 추가         22.11.23
+- 
 ---
 [mysql workbrench 사용법](https://post.naver.com/viewer/postView.naver?volumeNo=31829227&memberNo=1085064)
