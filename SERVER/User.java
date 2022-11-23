@@ -4,7 +4,7 @@ public class User {
     private int id;
     private int pw;
     private String major;
-    //0:id 1:grade 2:leader 3:announce 4:ppt 5:frontend 6:backend 7:selfability 8:teammate
+    /* 1:id, 2:grade, 3:leader 4:announce 5:ppt 6:frontend 7:backend 8:selfability 9:teammate*/
     private int user_info[] = new int[9];
 
     public void setID(int id){
