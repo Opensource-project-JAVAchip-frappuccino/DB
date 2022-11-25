@@ -1,5 +1,4 @@
 package SERVER;
-
 import java.sql.*;
 
 public class ConnectServer {
@@ -32,7 +31,7 @@ public class ConnectServer {
         }
     }//disconnectserver
 
-    public void InputData(int ID, int pw) { //signup 데이터 삽입 함수
+    public boolean InputData(int ID, int pw) { //signup 데이터 삽입 함수
         try {
             //매개변수화된 SQL문 작성
             String sql = "INSERT INTO login (id, pw) VALUES (?,?)";
@@ -45,10 +44,11 @@ public class ConnectServer {
             int rows = pstmt.executeUpdate();
             System.out.println("저장된 행 : " + rows);
             pstmt.close();
+            return false;
         } catch (SQLException e) {
             System.out.println("SQLException");
             e.printStackTrace();
-            //이미 있는 아이디입니다. 출력.
+            return true; //이미 있는 아이디입니다. 출력.
         }
     }//inputdata
 
@@ -82,7 +82,7 @@ public class ConnectServer {
     public void CheckList(int userlist[], String major){ //체크리스트 저장할 DB 접근 User_info 부분
         try {
             //매개변수화된 SQL문 작성
-            String sql = "INSERT INTO user_info () VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO user_info () VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; //15th
             PreparedStatement pstmt = this.conn.prepareStatement(sql);
 
             //user_info에서 받은 정보를 배열에 삽입하고, 일부는 직접 가져와야함.
@@ -95,6 +95,8 @@ public class ConnectServer {
             pstmt.setInt(12, 0); //list 게시글 유무
             pstmt.setInt(13, 1); //career 경험횟수
             pstmt.setDouble(14, 4.4); //rating 평점
+            pstmt.setInt(15, 4); //score 평점
+
 
             int rows = pstmt.executeUpdate();
             System.out.println("저장된 행 : " + rows);
