@@ -157,4 +157,115 @@ public class ConnectServer {
             e.printStackTrace();
         }
     }//Rewrite userinfo 수정 함수
+    public int GetUserinfo(int ID, int num){
+        try{
+            String sql = "SELECT * FROM user_info WHERE id =" + ID;
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            int ret = 0;
+            switch(num){
+                case 1: break;
+                case 2: //grade 출력
+                    if(rs.next()){
+                        ret = rs.getInt("grade");
+                        System.out.println(ret);
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+
+                case 3: //leader
+                    if(rs.next()){
+                        ret = rs.getInt("leader");
+                        System.out.println(ret);
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+
+                case 4: //announce
+                    if(rs.next()){
+                        ret = rs.getInt("announce");
+                        System.out.println(ret);
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+
+                case 5: //ppt
+                    if(rs.next()){
+                        ret = rs.getInt("ppt");
+                        System.out.println(ret);
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+
+                case 6: //document
+                    if(rs.next()){
+                        ret = rs.getInt("document");
+                        System.out.println(ret);
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+
+                case 7: //fronr-back
+                    if(rs.next()){
+                        ret = rs.getInt("front-back");
+                        System.out.println(ret);
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+
+                case 8: //selfability
+                    if(rs.next()){
+                        ret = rs.getInt("selfability");
+                        System.out.println(ret);
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+
+                case 9: //teammate
+                    if(rs.next()){
+                        ret = rs.getInt("teammate");
+                        System.out.println(ret);
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+
+                default:
+                    System.out.println("존재하지 하지 않음"); break;
+            }
+            rs.close();
+            stmt.close();
+            return ret;
+        }catch(SQLException e) {
+            System.out.println("ERROR in GetUserInfo");
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            System.out.println("ERROR in GetUserInfo");
+            e.printStackTrace();
+        }
+        return 0;
+    }//int GetUserinfo
+
+    public String GetUserinfo(int ID, String str) {
+        try{
+            String sql = "SELECT * FROM user_info WHERE id =" + ID;
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            switch(str){
+                case "grade": break;
+                case "major":
+                    if(rs.next()){
+                        String major = rs.getString("major");
+                        System.out.println(major);
+                        rs.close();stmt.close();
+                        return major;
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+                default:
+                    System.out.println("존재하지 하지 않음"); break;
+            }
+            rs.close();
+            stmt.close();
+            return "Failed";
+
+        }catch(SQLException e) {
+            System.out.println("ERROR in GetUserInfo");
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            System.out.println("ERROR in GetUserInfo");
+            e.printStackTrace();
+        }
+        return "Failed";
+    }//String GetUserinfo
 }
