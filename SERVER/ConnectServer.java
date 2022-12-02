@@ -1,4 +1,4 @@
-package SERVER;
+//package SERVER;
 import java.sql.*;
 
 public class ConnectServer {
@@ -52,16 +52,42 @@ public class ConnectServer {
         }
     }//inputdata
 
-    public boolean FindID(int ID, int pw){ //login 데이터를 가져오는 함수
+    public boolean FindID(int id, int pw){ //login 데이터를 가져오는 함수
         try {
             String sql = "SELECT id, pw FROM login WHERE id=?";
             PreparedStatement pstmt = this.conn.prepareStatement(sql);
-            pstmt.setInt(1, ID); //입력한 id를 통해서 서버와 확인
+            pstmt.setInt(1, id); //입력한 id를 통해서 서버와 확인
             ResultSet rs = pstmt.executeQuery();
 
             if(rs.next()){ //일치하는 id를 찾아도 pw가 일치하지 않으면 false 되야함.
                 User user = new User();
                 user.setID(rs.getInt("id"));
+                //user.setPW(rs.getInt("pw"));
+                System.out.println(user.toString());
+                pstmt.close();
+                return CheckPW(pw);
+            } else {
+                System.out.println("존재하지 하지 않음");
+                pstmt.close();
+                return false;
+            }
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }//FindID
+
+    public boolean CheckPW(int PW){
+        try {
+            String sql = "SELECT id, pw FROM login WHERE pw=?";
+            PreparedStatement pstmt = this.conn.prepareStatement(sql);
+            pstmt.setInt(1, PW); //입력한 id를 통해서 서버와 확인
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()){ //일치하는 id를 찾아도 pw가 일치하지 않으면 false 되야함.
+                User user = new User();
                 user.setPW(rs.getInt("pw"));
                 System.out.println(user.toString());
                 pstmt.close();
@@ -77,7 +103,7 @@ public class ConnectServer {
             e.printStackTrace();
         }
         return false;
-    }//FindID
+    }//CheckPW
 
     public void CheckList(int userlist[], String major){ //체크리스트 저장할 DB 접근 User_info 부분
         try {
@@ -91,11 +117,11 @@ public class ConnectServer {
                 pstmt.setInt(i + 1, userlist[i]);
             }
             pstmt.setString(10, major); //major
-            pstmt.setInt(11, 1); //group 그룹 유무
+            pstmt.setInt(11, 0); //group 그룹 유무
             pstmt.setInt(12, 0); //list 게시글 유무
-            pstmt.setInt(13, 1); //career 경험횟수
-            pstmt.setDouble(14, 4.4); //rating 평점
-            pstmt.setInt(15, 4); //score 평점
+            pstmt.setInt(13, 0); //career 경험횟수
+            pstmt.setDouble(14, 0.0); //rating 평점
+            pstmt.setInt(15, 0); //score 평점
 
 
             int rows = pstmt.executeUpdate();
