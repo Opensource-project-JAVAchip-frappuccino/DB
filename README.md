@@ -6,11 +6,11 @@
 ---
 ## To do
 - DB 완성
-- UI와 완전 연동
+- UI 완전 연동
 
 ## In Progress
 - 게시판용 DB 제작
-- 로그인, 회원가입 연결
+- 메인 페이지 연동
 
 ## Success
 - Intellij mysql 연동               22.09.?
