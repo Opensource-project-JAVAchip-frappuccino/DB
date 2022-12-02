@@ -1,9 +1,12 @@
-//package SERVER;
+//pakage SERVER
 import java.sql.*;
 
 public class ConnectServer {
     private Connection conn;
-    public ConnectServer() { // 서버 연결 함수
+    private PreparedStatement pstmt;
+    private Statement stmt;
+    private ResultSet rs;
+    ConnectServer() { // 서버 연결 함수
         String url = "jdbc:mysql://localhost:3306/marketeam"; //서버
         String user = "root";           //유저명
         String password = "7749";       //비번
@@ -14,13 +17,13 @@ public class ConnectServer {
             System.out.println("연결 성공!");
         } catch (ClassNotFoundException e) {
             System.out.println("ClassNotFoundException");
+            System.out.println("라이브러리 연결 확인필요");
             e.printStackTrace();
         } catch (SQLException e) {
             System.out.println("SQLException");
             e.printStackTrace();
         }
     }//public ConnectServer
-
     public void DisconnectServer() { //서버 연결 해제
         if (this.conn != null) {
             try {
@@ -36,7 +39,7 @@ public class ConnectServer {
             //매개변수화된 SQL문 작성
             String sql = "INSERT INTO login (id, pw) VALUES (?,?)";
             //매개변수화된 SQL문 실행 메소드 pstmt
-            PreparedStatement pstmt = this.conn.prepareStatement(sql);
+            pstmt = this.conn.prepareStatement(sql);
             //변수 삽입
             pstmt.setInt(1, ID);
             pstmt.setInt(2, pw);
@@ -46,6 +49,7 @@ public class ConnectServer {
             pstmt.close();
             return false;
         } catch (SQLException e) {
+            System.out.println("ERROR in inputdata");
             System.out.println("SQLException");
             e.printStackTrace();
             return true; //이미 있는 아이디입니다. 출력.
@@ -55,9 +59,9 @@ public class ConnectServer {
     public boolean FindID(int id, int pw){ //login 데이터를 가져오는 함수
         try {
             String sql = "SELECT id, pw FROM login WHERE id=?";
-            PreparedStatement pstmt = this.conn.prepareStatement(sql);
-            pstmt.setInt(1, id); //입력한 id를 통해서 서버와 확인
-            ResultSet rs = pstmt.executeQuery();
+            pstmt = this.conn.prepareStatement(sql);
+            pstmt.setInt(1, id); //파라미터 통해서 서버와 확인
+            rs = pstmt.executeQuery();
 
             if(rs.next()){ //일치하는 id를 찾아도 pw가 일치하지 않으면 false 되야함.
                 User user = new User();
@@ -72,19 +76,21 @@ public class ConnectServer {
                 return false;
             }
         }catch(SQLException e) {
+            System.out.println("ERROR in FindID");
             e.printStackTrace();
         }catch (NullPointerException e) {
+            System.out.println("ERROR in FindID");
             e.printStackTrace();
         }
         return false;
     }//FindID
 
-    public boolean CheckPW(int PW){
+    public boolean CheckPW(int PW){ //login 시 입력한 password가 DB와 일치하는지 확인.
         try {
             String sql = "SELECT id, pw FROM login WHERE pw=?";
-            PreparedStatement pstmt = this.conn.prepareStatement(sql);
-            pstmt.setInt(1, PW); //입력한 id를 통해서 서버와 확인
-            ResultSet rs = pstmt.executeQuery();
+            pstmt = this.conn.prepareStatement(sql);
+            pstmt.setInt(1, PW); //파라미터 통해서 서버와 확인
+            rs = pstmt.executeQuery();
 
             if(rs.next()){ //일치하는 id를 찾아도 pw가 일치하지 않으면 false 되야함.
                 User user = new User();
@@ -98,8 +104,10 @@ public class ConnectServer {
                 return false;
             }
         }catch(SQLException e) {
+            System.out.println("ERROR in CheckPW");
             e.printStackTrace();
         }catch (NullPointerException e) {
+            System.out.println("ERROR in CheckPW");
             e.printStackTrace();
         }
         return false;
@@ -109,7 +117,7 @@ public class ConnectServer {
         try {
             //매개변수화된 SQL문 작성
             String sql = "INSERT INTO user_info () VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; //15th
-            PreparedStatement pstmt = this.conn.prepareStatement(sql);
+            pstmt = this.conn.prepareStatement(sql);
 
             //user_info에서 받은 정보를 배열에 삽입하고, 일부는 직접 가져와야함.
             /* 1:id, 2:grade, 3:leader 4:announce 5:ppt 6:frontend 7:backend 8:selfability 9:teammate*/
@@ -128,19 +136,30 @@ public class ConnectServer {
             System.out.println("저장된 행 : " + rows);
             pstmt.close();
         }catch(SQLException e) {
+            System.out.println("ERROR in CheckList");
             e.printStackTrace();
         }catch (NullPointerException e) {
+            System.out.println("ERROR in CheckList");
             e.printStackTrace();
         }
     } //CheckList
 
-    public void RewriteInfo(int ID){ //userinfo 수정
+    public void RewriteInfo(int ID, int var){ //userinfo 수정
         //user_info 전체 수정. 여러개 접근?
         try{
-            String tail = "WHERE id = ID"; //고정되는 ID로 DB 접근.
-            Statement stmt = null;
+            String tail = "WHERE id =" + ID; //고정되는 ID로 DB 접근.
+            stmt = null;
             stmt = conn.createStatement();
+            /*
+            switch (var){
+                case:
+                    break;
+                case:
+                    break;
+                case:
+                    break;
 
+            }*/
             stmt.executeUpdate("UPDATE user_info SET grade = " + tail);
             stmt.executeUpdate("UPDATE user_info SET leader = " + tail);
             stmt.executeUpdate("UPDATE user_info SET announce = " + tail);
@@ -150,14 +169,17 @@ public class ConnectServer {
             stmt.executeUpdate("UPDATE user_info SET selfability = " + tail);
             stmt.executeUpdate("UPDATE user_info SET teammate = " + tail);
             stmt.executeUpdate("UPDATE user_info SET major= " + tail);
-            
+
         }catch(SQLException e) {
+            System.out.println("ERROR in Rewriteuserinfo");
             e.printStackTrace();
         }catch (NullPointerException e) {
+            System.out.println("ERROR in Rewriteuserinfo");
             e.printStackTrace();
         }
-    }//Rewrite userinfo 수정 함수
-    public int GetUserinfo(int ID, int num){
+    }//Rewriteuserinfo 정보수정함수
+
+    public int GetUserinfo(int ID, int num){ //유저정보 출력함수 원하는 정보에 대해서만 출력
         try{
             String sql = "SELECT * FROM user_info WHERE id =" + ID;
             stmt = conn.createStatement();
@@ -237,7 +259,7 @@ public class ConnectServer {
         return 0;
     }//int GetUserinfo
 
-    public String GetUserinfo(int ID, String str) {
+    public String GetUserinfo(int ID, String str) { //문자열 형식으로 저장된 DB데이터 출력 함수 major 해당
         try{
             String sql = "SELECT * FROM user_info WHERE id =" + ID;
             stmt = conn.createStatement();
