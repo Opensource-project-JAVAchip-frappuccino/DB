@@ -1,4 +1,4 @@
-//pakage SERVER
+//package SERVER;
 import java.sql.*;
 
 public class ConnectServer {
@@ -34,7 +34,7 @@ public class ConnectServer {
         }
     }//disconnectserver
 
-    public boolean InputData(int ID, int pw) { //signup 데이터 삽입 함수
+    public boolean InputData(int ID, int pw) { //signup 데이터 삽입 함수 //완성
         try {
             //매개변수화된 SQL문 작성
             String sql = "INSERT INTO login (id, pw) VALUES (?,?)";
@@ -56,11 +56,11 @@ public class ConnectServer {
         }
     }//inputdata
 
-    public boolean FindID(int id, int pw){ //login 데이터를 가져오는 함수
+    public boolean FindID(int id, int pw){ //login 데이터를 가져오는 함수 //완성
         try {
             String sql = "SELECT id, pw FROM login WHERE id=?";
             pstmt = this.conn.prepareStatement(sql);
-            pstmt.setInt(1, id); //파라미터 통해서 서버와 확인
+            pstmt.setInt(1, id); //입력한 id를 통해서 서버와 확인
             rs = pstmt.executeQuery();
 
             if(rs.next()){ //일치하는 id를 찾아도 pw가 일치하지 않으면 false 되야함.
@@ -85,11 +85,11 @@ public class ConnectServer {
         return false;
     }//FindID
 
-    public boolean CheckPW(int PW){ //login 시 입력한 password가 DB와 일치하는지 확인.
+    public boolean CheckPW(int PW){ //비밀번호 확인 함수 //완성
         try {
             String sql = "SELECT id, pw FROM login WHERE pw=?";
             pstmt = this.conn.prepareStatement(sql);
-            pstmt.setInt(1, PW); //파라미터 통해서 서버와 확인
+            pstmt.setInt(1, PW); //입력한 id를 통해서 서버와 확인
             rs = pstmt.executeQuery();
 
             if(rs.next()){ //일치하는 id를 찾아도 pw가 일치하지 않으면 false 되야함.
@@ -113,10 +113,11 @@ public class ConnectServer {
         return false;
     }//CheckPW
 
-    public void CheckList(int userlist[], String major){ //체크리스트 저장할 DB 접근 User_info 부분
+    public void CheckList(int userlist[], String major, String name){ //체크리스트 저장할 DB 접근 User_info 부분
         try {
             //매개변수화된 SQL문 작성
-            String sql = "INSERT INTO user_info () VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; //15th
+            String sql = "INSERT INTO user_info " +
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; //16
             pstmt = this.conn.prepareStatement(sql);
 
             //user_info에서 받은 정보를 배열에 삽입하고, 일부는 직접 가져와야함.
@@ -124,12 +125,14 @@ public class ConnectServer {
             int i; for(i=0;i<9;i++) {
                 pstmt.setInt(i + 1, userlist[i]);
             }
-            pstmt.setString(10, major); //major
-            pstmt.setInt(11, 0); //group 그룹 유무
-            pstmt.setInt(12, 0); //list 게시글 유무
-            pstmt.setInt(13, 0); //career 경험횟수
-            pstmt.setDouble(14, 0.0); //rating 평점
-            pstmt.setInt(15, 0); //score 평점
+
+            pstmt.setString(10, name); //name
+            pstmt.setString(11, major); //major
+            pstmt.setInt(12, 0); //group 그룹 유무
+            pstmt.setInt(13, 0); //list 게시글 유무
+            pstmt.setInt(14, 0); //career 경험횟수
+            pstmt.setDouble(15, 0.0); //rating 평점
+            pstmt.setInt(16, 0); //score 평점
 
 
             int rows = pstmt.executeUpdate();
@@ -179,7 +182,7 @@ public class ConnectServer {
         }
     }//Rewriteuserinfo 정보수정함수
 
-    public int GetUserinfo(int ID, int num){ //유저정보 출력함수 원하는 정보에 대해서만 출력
+    public int GetUserinfo(int ID, int num){
         try{
             String sql = "SELECT * FROM user_info WHERE id =" + ID;
             stmt = conn.createStatement();
@@ -222,7 +225,7 @@ public class ConnectServer {
                     } else { System.out.println("존재하지 하지 않음"); }
                     break;
 
-                case 7: //fronr-back
+                case 7: //front-back
                     if(rs.next()){
                         ret = rs.getInt("front-back");
                         System.out.println(ret);
@@ -259,7 +262,7 @@ public class ConnectServer {
         return 0;
     }//int GetUserinfo
 
-    public String GetUserinfo(int ID, String str) { //문자열 형식으로 저장된 DB데이터 출력 함수 major 해당
+    public String GetUserinfo(int ID, String str) {
         try{
             String sql = "SELECT * FROM user_info WHERE id =" + ID;
             stmt = conn.createStatement();
@@ -290,4 +293,32 @@ public class ConnectServer {
         }
         return "Failed";
     }//String GetUserinfo
+
+    public void SetCourse(int ID){ //과목 게시글 생성 페이지(교수만 접근?)
+        //여러 과목을 맡으므로 ID의 primary 해지. 여러 과목글을 올릴 수 있음.
+        try {
+            //매개변수화된 SQL문 작성
+            String sql = "INSERT INTO subject () VALUES ( ?, ?, ?, ?, ?, ?)"; //6개
+            pstmt = this.conn.prepareStatement(sql);
+
+            //pstmt.setInt(1, ID);
+            pstmt.setString(1, "opensource project"); //subject
+            pstmt.setString(2, "kimkyoungmin"); //prof_name
+            pstmt.setString(3, "Java"); //language
+            pstmt.setString(4, "C++"); //pre-course
+            pstmt.setInt(5, 2); //grade
+            pstmt.setInt(6, 50); //maximum
+
+            int rows = pstmt.executeUpdate();
+            System.out.println("저장된 행 : " + rows);
+            pstmt.close();
+        }catch(SQLException e) {
+            System.out.println("ERROR in SetCourse");
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            System.out.println("ERROR in SetCourse");
+            e.printStackTrace();
+        }
+    }//SetCourse
+
 }
