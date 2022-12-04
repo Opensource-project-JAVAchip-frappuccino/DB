@@ -295,7 +295,7 @@ public class ConnectServer {
     }//String GetUserinfo
 
     public void SetCourse(int ID){ //과목 게시글 생성 페이지(교수만 접근?)
-        //여러 과목을 맡으므로 ID의 primary 해지. 여러 과목글을 올릴 수 있음.
+        //교수는 과목을 여러개 맡을 수 있음, 과목이 primary 값을 가짐.
         try {
             //매개변수화된 SQL문 작성
             String sql = "INSERT INTO subject () VALUES ( ?, ?, ?, ?, ?, ?)"; //6개
