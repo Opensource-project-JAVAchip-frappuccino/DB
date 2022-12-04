@@ -11,6 +11,8 @@
 ## In Progress
 - 게시판용 DB 제작
 - 메인 페이지 연동
+- Rewrite 내용 수정 함수 제작
+- title, course DB 제작
 
 ## Success
 - Intellij mysql 연동                             22.09.?
