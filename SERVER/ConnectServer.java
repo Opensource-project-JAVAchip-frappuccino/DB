@@ -114,26 +114,26 @@ public class ConnectServer {
     }//CheckPW
 
     public void CheckList(int userlist[], String major, String name){ //체크리스트 저장할 DB 접근 User_info 부분
+        //user_info에서 받은 정보를 배열에 삽입하고, 일부는 직접 가져와야함.
         try {
             //매개변수화된 SQL문 작성
             String sql = "INSERT INTO user_info " +
-                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; //16
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; //15
             pstmt = this.conn.prepareStatement(sql);
 
-            //user_info에서 받은 정보를 배열에 삽입하고, 일부는 직접 가져와야함.
             /* 1:id, 2:grade, 3:leader 4:announce 5:ppt 6:frontend 7:backend 8:selfability 9:teammate*/
             int i; for(i=0;i<9;i++) {
                 pstmt.setInt(i + 1, userlist[i]);
             }
 
-            pstmt.setString(10, name); //name
-            pstmt.setString(11, major); //major
-            pstmt.setInt(12, 0); //group 그룹 유무
-            pstmt.setInt(13, 0); //list 게시글 유무
-            pstmt.setInt(14, 0); //career 경험횟수
-            pstmt.setDouble(15, 0.0); //rating 평점
-            pstmt.setInt(16, 0); //score 평점
+            pstmt.setString(10, name);    //name 이름
+            pstmt.setString(11, major);   //major 학과
+            pstmt.setInt(12, 0);        //score 그룹 유무
 
+            //해당 부분은 차후에 수정함수로 입력 받기로 함.
+            pstmt.setInt(13, 0);        //subject 그룹 유무
+            pstmt.setInt(14, 0);        //list 게시글 유무
+            pstmt.setInt(15, 0);        //group 경험횟수
 
             int rows = pstmt.executeUpdate();
             System.out.println("저장된 행 : " + rows);
@@ -147,37 +147,32 @@ public class ConnectServer {
         }
     } //CheckList
 
-    public void RewriteInfo(int ID, int var){ //userinfo 수정
-        //user_info 전체 수정. 여러개 접근?
+    public void RewriteInfo(int ID, int var, int arr[]){ //subject, list, group에 대한 업데이트 함수 
+        //arr내부에 변수 들의 수정값 들어있음 또는 따로 들어있음
         try{
+            String sql = "UPDATE user_info";
             String tail = "WHERE id =" + ID; //고정되는 ID로 DB 접근.
             stmt = null;
             stmt = conn.createStatement();
-            /*
+
             switch (var){
-                case:
+                case 1: //subject 값 변경
+                    stmt.executeUpdate(sql + " SET subject = " + arr[0] + " " + tail);
                     break;
-                case:
+                case 2: //list 변경
+                    stmt.executeUpdate(sql + " SET list = " + arr[1] + " " + tail);
                     break;
-                case:
+                case 3: //group 변경
+                    stmt.executeUpdate(sql + " SET group = " + arr[2] + " " + tail);
                     break;
-
-            }*/
-            stmt.executeUpdate("UPDATE user_info SET grade = " + tail);
-            stmt.executeUpdate("UPDATE user_info SET leader = " + tail);
-            stmt.executeUpdate("UPDATE user_info SET announce = " + tail);
-            stmt.executeUpdate("UPDATE user_info SET ppt = " + tail);
-            stmt.executeUpdate("UPDATE user_info SET frontend = " + tail);
-            stmt.executeUpdate("UPDATE user_info SET backend = " + tail);
-            stmt.executeUpdate("UPDATE user_info SET selfability = " + tail);
-            stmt.executeUpdate("UPDATE user_info SET teammate = " + tail);
-            stmt.executeUpdate("UPDATE user_info SET major= " + tail);
-
+                default:
+                    break;
+            }
         }catch(SQLException e) {
-            System.out.println("ERROR in Rewriteuserinfo");
+            System.out.println("ERROR in Rewriteinfo");
             e.printStackTrace();
         }catch (NullPointerException e) {
-            System.out.println("ERROR in Rewriteuserinfo");
+            System.out.println("ERROR in Rewriteinfo");
             e.printStackTrace();
         }
     }//Rewriteuserinfo 정보수정함수
@@ -262,13 +257,14 @@ public class ConnectServer {
         return 0;
     }//int GetUserinfo
 
-    public String GetUserinfo(int ID, String str) {
+    public String GetUserinfo(int ID, String str) { //완성
         try{
             String sql = "SELECT * FROM user_info WHERE id =" + ID;
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
             switch(str){
                 case "grade": break;
+                case "name" : break;
                 case "major":
                     if(rs.next()){
                         String major = rs.getString("major");
@@ -283,7 +279,6 @@ public class ConnectServer {
             rs.close();
             stmt.close();
             return "Failed";
-
         }catch(SQLException e) {
             System.out.println("ERROR in GetUserInfo");
             e.printStackTrace();
@@ -294,20 +289,21 @@ public class ConnectServer {
         return "Failed";
     }//String GetUserinfo
 
-    public void SetCourse(int ID){ //과목 게시글 생성 페이지(교수만 접근?)
+    public void SetCourse(String [] str, int subnum, int teamnum){ //과목 게시글 생성 페이지(교수만 접근?)
         //교수는 과목을 여러개 맡을 수 있음, 과목이 primary 값을 가짐.
         try {
             //매개변수화된 SQL문 작성
-            String sql = "INSERT INTO subject () VALUES ( ?, ?, ?, ?, ?, ?)"; //6개
+            String sql = "INSERT INTO subject () VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //8개
             pstmt = this.conn.prepareStatement(sql);
 
-            //pstmt.setInt(1, ID);
-            pstmt.setString(1, "opensource project"); //subject
-            pstmt.setString(2, "kimkyoungmin"); //prof_name
-            pstmt.setString(3, "Java"); //language
-            pstmt.setString(4, "C++"); //pre-course
-            pstmt.setInt(5, 2); //grade
-            pstmt.setInt(6, 50); //maximum
+            pstmt.setInt(1, 0); //인덱스 수 건들지 말기
+            for(int i = 0; i < 4; i++)
+            {
+                pstmt.setString(i+2,str[i]);
+            }
+            pstmt.setInt(6, 1/*Integer.parseInt(str[4])*/); //학년
+            pstmt.setInt(7, subnum); //subnum
+            pstmt.setInt(8,teamnum); //teamnum
 
             int rows = pstmt.executeUpdate();
             System.out.println("저장된 행 : " + rows);
@@ -321,4 +317,127 @@ public class ConnectServer {
         }
     }//SetCourse
 
+    public String GetCourse(int i, String str){ //고유 넘버도
+        try{
+            String sql = "SELECT * FROM subject WHERE num =" + i;
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            String ret;
+            switch(str){
+                case "name":
+                    if(rs.next()){
+                        ret = rs.getString("prof_name");
+                        System.out.println(ret);
+                        rs.close();stmt.close();
+                        return ret;
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+                case "subject":
+                    if(rs.next()){
+                        ret = rs.getString("subject");
+                        System.out.println(ret);
+                        rs.close();stmt.close();
+                        return ret;
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+                case "language":
+                    if(rs.next()){
+                        ret = rs.getString("language");
+                        System.out.println(ret);
+                        rs.close();stmt.close();
+                        return ret;
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+                case "precourse":
+                    if(rs.next()){
+                        ret = rs.getString("pre-course");
+                        System.out.println(ret);
+                        rs.close();stmt.close();
+                        return ret;
+                    } else { System.out.println("존재하지 하지 않음"); }
+                    break;
+                default:
+                    System.out.println("존재하지 하지 않음"); break;
+            }
+            rs.close();
+            stmt.close();
+            return "Failed";
+        }catch(SQLException e) {
+            System.out.println("ERROR in GetCourse");
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            System.out.println("ERROR in GetCourse");
+            e.printStackTrace();
+        }
+        return "Failed";
+    }//String GetCourse
+
+    public int GetCourse(int i, int num){
+        try{
+            String sql = "SELECT * FROM subject WHERE num =" + i;
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            int ret = 0;
+            switch(num) {
+                case 1: //grade
+                    if (rs.next()) {
+                        ret = rs.getInt("grade");
+                        System.out.println(ret);
+                    } else {
+                        System.out.println("존재하지 하지 않음");
+                    }
+                    break;
+                case 2: //maximum
+                    if (rs.next()) {
+                        ret = rs.getInt("maximum");
+                        System.out.println(ret);
+                    } else {
+                        System.out.println("존재하지 하지 않음");
+                    }
+                    break;
+                case 3: //teamnum
+                    if (rs.next()) {
+                        ret = rs.getInt("teamnum");
+                        System.out.println(ret);
+                    } else {
+                        System.out.println("존재하지 하지 않음");
+                    }
+                    break;
+                default:
+                    System.out.println("존재하지 하지 않음"); break;
+            }
+            rs.close();
+            stmt.close();
+            return ret;
+        }catch(SQLException e) {
+            System.out.println("ERROR in GetUserInfo");
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            System.out.println("ERROR in GetUserInfo");
+            e.printStackTrace();
+        }
+        return 0;
+    }//int GetCourse
+
+    public int subject_row_size() {
+        try {
+            String sql = "SELECT * FROM subject";
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            int size = 0;
+            while (rs.next()) {
+                size++;
+            }
+            rs.close();
+            stmt.close();
+            return size;
+        } catch (SQLException e) {
+            System.out.println("ERROR in GetUserInfo");
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.out.println("ERROR in GetUserInfo");
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
