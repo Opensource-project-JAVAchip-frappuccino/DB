@@ -62,12 +62,11 @@ public class ConnectServer {
             pstmt = this.conn.prepareStatement(sql);
             pstmt.setInt(1, id); //입력한 id를 통해서 서버와 확인
             rs = pstmt.executeQuery();
-
+            int ret;
             if(rs.next()){ //일치하는 id를 찾아도 pw가 일치하지 않으면 false 되야함.
-                User user = new User();
-                user.setID(rs.getInt("id"));
+                ret = rs.getInt("id");
                 //user.setPW(rs.getInt("pw"));
-                System.out.println(user.toString());
+                System.out.println("아이디 = " +ret);
                 pstmt.close();
                 return CheckPW(pw);
             } else {
@@ -91,11 +90,10 @@ public class ConnectServer {
             pstmt = this.conn.prepareStatement(sql);
             pstmt.setInt(1, PW); //입력한 id를 통해서 서버와 확인
             rs = pstmt.executeQuery();
-
+            int ret;
             if(rs.next()){ //일치하는 id를 찾아도 pw가 일치하지 않으면 false 되야함.
-                User user = new User();
-                user.setPW(rs.getInt("pw"));
-                System.out.println(user.toString());
+                ret = rs.getInt("pw");
+                System.out.println("비밀번호 = " + ret);
                 pstmt.close();
                 return true;
             } else {
@@ -188,56 +186,56 @@ public class ConnectServer {
                 case 2: //grade 출력
                     if(rs.next()){
                         ret = rs.getInt("grade");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                     } else { System.out.println("존재하지 하지 않음"); }
                     break;
 
                 case 3: //leader
                     if(rs.next()){
                         ret = rs.getInt("leader");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                     } else { System.out.println("존재하지 하지 않음"); }
                     break;
 
                 case 4: //announce
                     if(rs.next()){
                         ret = rs.getInt("announce");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                     } else { System.out.println("존재하지 하지 않음"); }
                     break;
 
                 case 5: //ppt
                     if(rs.next()){
                         ret = rs.getInt("ppt");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                     } else { System.out.println("존재하지 하지 않음"); }
                     break;
 
                 case 6: //document
                     if(rs.next()){
                         ret = rs.getInt("document");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                     } else { System.out.println("존재하지 하지 않음"); }
                     break;
 
                 case 7: //front-back
                     if(rs.next()){
                         ret = rs.getInt("front-back");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                     } else { System.out.println("존재하지 하지 않음"); }
                     break;
 
                 case 8: //selfability
                     if(rs.next()){
                         ret = rs.getInt("selfability");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                     } else { System.out.println("존재하지 하지 않음"); }
                     break;
 
                 case 9: //teammate
                     if(rs.next()){
                         ret = rs.getInt("teammate");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                     } else { System.out.println("존재하지 하지 않음"); }
                     break;
 
@@ -263,12 +261,10 @@ public class ConnectServer {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
             switch(str){
-                case "grade": break;
-                case "name" : break;
                 case "major":
                     if(rs.next()){
                         String major = rs.getString("major");
-                        System.out.println(major);
+                        //System.out.println(major);
                         rs.close();stmt.close();
                         return major;
                     } else { System.out.println("존재하지 하지 않음"); }
@@ -327,7 +323,7 @@ public class ConnectServer {
                 case "name":
                     if(rs.next()){
                         ret = rs.getString("prof_name");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                         rs.close();stmt.close();
                         return ret;
                     } else { System.out.println("존재하지 하지 않음"); }
@@ -335,7 +331,7 @@ public class ConnectServer {
                 case "subject":
                     if(rs.next()){
                         ret = rs.getString("subject");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                         rs.close();stmt.close();
                         return ret;
                     } else { System.out.println("존재하지 하지 않음"); }
@@ -343,7 +339,7 @@ public class ConnectServer {
                 case "language":
                     if(rs.next()){
                         ret = rs.getString("language");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                         rs.close();stmt.close();
                         return ret;
                     } else { System.out.println("존재하지 하지 않음"); }
@@ -351,7 +347,7 @@ public class ConnectServer {
                 case "precourse":
                     if(rs.next()){
                         ret = rs.getString("pre-course");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                         rs.close();stmt.close();
                         return ret;
                     } else { System.out.println("존재하지 하지 않음"); }
@@ -382,7 +378,7 @@ public class ConnectServer {
                 case 1: //grade
                     if (rs.next()) {
                         ret = rs.getInt("grade");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                     } else {
                         System.out.println("존재하지 하지 않음");
                     }
@@ -390,7 +386,7 @@ public class ConnectServer {
                 case 2: //maximum
                     if (rs.next()) {
                         ret = rs.getInt("maximum");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                     } else {
                         System.out.println("존재하지 하지 않음");
                     }
@@ -398,7 +394,7 @@ public class ConnectServer {
                 case 3: //teamnum
                     if (rs.next()) {
                         ret = rs.getInt("teamnum");
-                        System.out.println(ret);
+                        //System.out.println(ret);
                     } else {
                         System.out.println("존재하지 하지 않음");
                     }
@@ -432,12 +428,75 @@ public class ConnectServer {
             stmt.close();
             return size;
         } catch (SQLException e) {
-            System.out.println("ERROR in GetUserInfo");
+            System.out.println("ERROR in Size");
             e.printStackTrace();
         } catch (NullPointerException e) {
-            System.out.println("ERROR in GetUserInfo");
+            System.out.println("ERROR in Size");
             e.printStackTrace();
         }
         return 0;
     }
+
+    public String GetTitle(int ID, String name){
+        try{
+            String sql = "SELECT * FROM title WHERE id =" + ID;
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            String ret = "Failed";
+            switch(name) {
+                case "title" :
+                    if (rs.next()) {
+                        ret = rs.getString("title");
+                        //System.out.println(ret);
+                    } else {
+                        System.out.println("존재하지 하지 않음");
+                    }
+                    break;
+                case "content" :
+                    if (rs.next()) {
+                        ret = rs.getString("content");
+                        //System.out.println(ret);
+                    } else {
+                        System.out.println("존재하지 하지 않음");
+                    }
+                    break;
+                default:
+                    System.out.println("존재하지 하지 않음"); break;
+            }
+            rs.close();
+            stmt.close();
+            return ret;
+        }catch(SQLException e) {
+            System.out.println("ERROR in GetUserInfo");
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            System.out.println("ERROR in GetUserInfo");
+            e.printStackTrace();
+        }
+        return "Failed";
+    }
+
+    public int SetTitle(int ID, String title, String content){
+        try {
+            //매개변수화된 SQL문 작성
+            String sql = "INSERT INTO title () VALUES (?, ?, ?)"; //3개
+            pstmt = this.conn.prepareStatement(sql);
+
+            pstmt.setInt(1, ID);
+            pstmt.setString(2, title); //
+            pstmt.setString(3, content); //최대 200자
+
+            int rows = pstmt.executeUpdate();
+            System.out.println("저장된 행 : " + rows);
+            pstmt.close();
+        }catch(SQLException e) {
+            System.out.println("ERROR in SetTitle");
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            System.out.println("ERROR in SetTitle");
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }
