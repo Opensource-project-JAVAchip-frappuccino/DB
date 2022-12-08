@@ -6,7 +6,7 @@
 ---
 ## To do
 - DB 완성
-- UI 완전 연동
+- 구현부와 연동
 
 ## In Progress
 - 게시판용 DB 제작
