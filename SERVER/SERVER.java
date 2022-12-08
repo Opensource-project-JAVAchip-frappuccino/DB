@@ -10,7 +10,7 @@
  */
 
 import java.util.Scanner;
-//DB를 이용하려면 반드시 사용 해당 클래스를 통해서 프론트와 연결.
+//해당 함수는 매뉴얼용 함수
 public class SERVER {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
