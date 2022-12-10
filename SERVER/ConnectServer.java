@@ -498,5 +498,95 @@ public class ConnectServer {
         }
         return 0;
     }
+    public int getTeam(int Subnum, int Teamnum){
+        try{
+            String sql = "SELECT * FROM team WHERE subnum =" + Subnum;
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            int ret = 0;
+            switch(Teamnum) {
+                case 1: //subnum
+                    if (rs.next()) {
+                        ret = rs.getInt(1); //subnum
+                        //System.out.println(ret);
+                    }
+                    break;
+                case 2: //teamnum
+                    if (rs.next()) {
+                        ret = rs.getInt(2); //teamnum
+                        //System.out.println(ret);
+                    }
+                    break;
+                case 3: //Leader
+                    if (rs.next()) {
+                        ret = rs.getInt(3); //Leader
+                        //System.out.println(ret);
+                    }
+                    break;
+                case 4: //member1
+                    if (rs.next()) {
+                        ret = rs.getInt(4); //member1
+                        //System.out.println(ret);
+                    }
+                    break;
+                case 5: //member2
+                    if (rs.next()) {
+                        ret = rs.getInt(5); //member2
+                        //System.out.println(ret);
+                    }
+                    break;
+                case 6: //member3
+                    if (rs.next()) {
+                        ret = rs.getInt(6); //member3
+                        //System.out.println(ret);
+                    }
+                    break;
+                case 7: //member4
+                    if (rs.next()) {
+                        ret = rs.getInt(7); //member4
+                        //System.out.println(ret);
+                    }
+                    break;
+                case 8: //current num
+                    if (rs.next()) {
+                        ret = rs.getInt(8); //current num
+                        //System.out.println(ret);
+                    }
+                    break;
+                default:
+                    System.out.println("존재하지 하지 않음"); break;
+            }
+            rs.close();
+            stmt.close();
+            return ret;
+        }catch(SQLException e) {
+            System.out.println("ERROR in GetTeam");
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            System.out.println("ERROR in GetTeam");
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
+    public int SetTeam(int Subnum, int arr[]){
+        try {
+            String sql = "INSERT INTO team () VALUES (?, ?, ?, ?, ?, ? ,? ,?)"; //8개
+            pstmt = this.conn.prepareStatement(sql);
+            int i = 0;
+            for(i = 0; i < 8; i++)
+                pstmt.setInt(i+1, arr[i]);
+
+            int rows = pstmt.executeUpdate();
+            System.out.println("저장된 행 : " + rows);
+            pstmt.close();
+        }catch(SQLException e) {
+            System.out.println("ERROR in SetTeam");
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            System.out.println("ERROR in SetTeam");
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
