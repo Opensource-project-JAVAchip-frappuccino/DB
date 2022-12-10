@@ -5,13 +5,10 @@
 - 해당 코드들은 pdf를 기준으로 작성
 ---
 ## To do
-- DB 완성
-- 구현부와 연동
 
 ## In Progress
-- 게시판용 DB 제작
-- 메인 페이지 연동
-
+- DB 완성
+- 구현부와 연동
 
 ## Success
 - Intellij mysql 연동                             22.09.?
@@ -21,9 +18,12 @@
 - 저장된 정보 추출                                 22.11.09
 - 체크리스트 저장 테이블                           22.11.15
 - 정보 수정 함수 Rewrite 추가                     22.11.23
-- DB테이블 수정, 로그인, 회원가입 연동, FindID 버그발견 22.11.25
-- FindID 버그 수정 GetUserinfo 생성                    22.12.02
+- DB테이블 수정, 로그인                           22.11.25
+- 회원가입 연동, FindID 버그발견                  22.11.25
+- FindID 버그 수정 GetUserinfo 생성               22.12.02
 - Rewrite 내용 수정 함수 제작                     22.12.06
-- title, course DB 제작                           22.12.06
+- title, course DB 제작                          22.12.06
+- 게시판용 DB 제작                                22.12.08
+- 메인 페이지 연동                                22.12.08
 ---
 [mysql workbrench 사용법](https://post.naver.com/viewer/postView.naver?volumeNo=31829227&memberNo=1085064)
