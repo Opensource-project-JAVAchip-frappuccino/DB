@@ -1,14 +1,12 @@
 **반드시 본인의 서버명(스키마명), 유저명, 비밀번호 변경 후 실행**
 
-# DB 미완성
+# DB 완성
 - SERVER.java를 통해 DB 사용법 숙지
 - 해당 코드들은 pdf를 베이스로 작성
 ---
 ## To do
 
 ## In Progress
-- DB 완성
-- 구현부와 연동
 
 ## Success
 - Intellij mysql 연동                             22.09.?
@@ -25,5 +23,7 @@
 - title, course DB 제작                          22.12.06
 - 게시판용 DB 제작                                22.12.08
 - 메인 페이지 연동                                22.12.08
+- DB 완성                                         22.12.11
+- 구현부와 연동                                   22.12.11
 ---
 [mysql workbrench 사용법](https://post.naver.com/viewer/postView.naver?volumeNo=31829227&memberNo=1085064)
