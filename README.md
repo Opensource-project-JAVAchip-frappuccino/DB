@@ -4,10 +4,6 @@
 - SERVER.java를 통해 DB 사용법 숙지
 - 해당 코드들은 pdf를 베이스로 작성
 ---
-## To do
-
-## In Progress
-
 ## Success
 - Intellij mysql 연동                             22.09.?
 - DB연결                                          22.09.?
@@ -25,5 +21,9 @@
 - 메인 페이지 연동                                22.12.08
 - DB 완성                                         22.12.11
 - 구현부와 연동                                   22.12.11
+
+## To do
+
+## In Progress
 ---
 [mysql workbrench 사용법](https://post.naver.com/viewer/postView.naver?volumeNo=31829227&memberNo=1085064)
