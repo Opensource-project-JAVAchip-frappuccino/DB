@@ -2,7 +2,7 @@
 
 # DB 완성?
 - SERVER.java를 통해 DB 사용법 숙지
-- 해당 코드들은 pdf를 베이스로 작성
+- 해당 코드들은 pdf를 참고하여 작성
 ---
 ## Success
 - Intellij mysql 연동                             22.09.?
