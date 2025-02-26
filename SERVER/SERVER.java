@@ -43,7 +43,7 @@ public class SERVER {
             cs.SetCourse(src,0,0);
         }
         else if(cmd.equals("title")){
-            cs.SetTitle(id, "제목을 입력하세요", "게시글은 이렇게 쓸 수 있고 최대 200자 까지 쓸 수 있습니다. 근데 얼마나 적히는지 제대로 알 순 없어요.");
+            cs.SetTitle(id, "제목을 입력하세요", "게시글은 최대 200자 까지 쓸 수 있습니다.");
             String str = cs.GetTitle(id, "title");
             System.out.println(str);
             str = cs.GetTitle(id, "content");
